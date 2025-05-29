@@ -76,7 +76,7 @@ static char	*out(t_caract *first)
 	if (!out_line)
 		return (NULL);
 	current = first;
-	while (i < len)
+	while (i < len && current)
 	{
 		out_line[i] = current->data;
 		current = current->next;
@@ -98,13 +98,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (len_before_nl(first) == -1 && state > 0)
 	{
-		buf = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
+		buf = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 		if (!buf)
 			return (NULL);
+		state = read(fd, buf, BUFFER_SIZE)
 		if (state > 0)
 			buf[state] = '\0';
 		first = treat_buf(buf, first);
-			free (buf);
+		free (buf);
 	}
 	out_line = out(first);
  	first = get_new_first(first);

@@ -15,16 +15,14 @@
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	size_t	i;
-	size_t	r;
 	void	*res;
 
-	i = 0;
 	if (nmemb == 0 || size == 0)
 		return (malloc(0));
-	r = nmemb * size;
-	res = malloc(r);
-	if (res == NULL || r / size != nmemb)
+	res = malloc(nmemb * size);
+	if (!res)
 		return (NULL);
+	i = 0;
 	while (i < nmemb * size)
 	{
 		((char *)res)[i] = 0;
@@ -35,15 +33,15 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 int	spe_len(t_caract *first)
 {
-	int			i;
-	t_caract	*courant;
+	int	i;
 
 	i = 0;
-	courant = first;
-	while (courant != NULL)
+	while (first != NULL)
 	{
-		courant = courant->next;
 		i++;
+		if (first->is_nl)
+			break;
+		first = first->next;
 	}
 	return (i);
 }
@@ -51,25 +49,24 @@ int	spe_len(t_caract *first)
 int	len_before_nl(t_caract *first)
 {
 	int	i;
-	t_caract	*courant;
 
 	i = 0;
-	courant = first;
-	while (courant != NULL)
+	while (first != NULL)
 	{
-		if (courant->is_nl == true)
-			return (i - 1);
+		if (first->is_nl == true)
+			return (i);
+		first = first->next;
 		i++;
 	}
 	return (-1);
 }
 
-t_caract	*new_t_caract(t_caract *t_caract)
+t_caract	*new_t_caract(t_caract *car)
 {
-	if (t_caract->data == '\n')
-		t_caract->is_nl = true;
+	if (car->data == '\n')
+		car->is_nl = true;
 	else
-		t_caract->is_nl = false;
-	t_caract->next = NULL;
-	return (t_caract);
+		car->is_nl = false;
+	car->next = NULL;
+	return (car);
 }
