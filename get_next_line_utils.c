@@ -70,3 +70,35 @@ t_caract	*new_t_caract(t_caract *car)
 	car->next = NULL;
 	return (car);
 }
+
+// t_caract	*treat_buf(char *buf, t_caract *first)
+// {
+// 	t_caract	*current;
+// 	t_caract	*new;
+
+// 	if (!first)
+// 	{
+// 		first = (t_caract *)ft_calloc(1, sizeof(t_caract));
+// 		if (!first)
+// 			return (NULL);
+// 		first->data = *buf++;
+// 		first = new_t_caract(first);
+// 		current = first;
+// 	}
+// 	else
+// 	{
+// 		current = first;
+// 		while (current->next != NULL)
+// 			current = current->next;
+// 	}
+// 	while (*buf)
+// 	{
+// 		new = (t_caract *)ft_calloc(1, sizeof(t_caract));
+// 		if (!new)
+// 			return (NULL);
+// 		new->data = *buf++;
+// 		current->next = new_t_caract(new);
+// 		current = current->next;
+// 	}
+// 	return (first);
+// }
