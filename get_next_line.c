@@ -6,7 +6,7 @@
 /*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:44:39 by yzidani           #+#    #+#             */
-/*   Updated: 2025/05/29 15:04:48 by yzidani          ###   ########.fr       */
+/*   Updated: 2025/05/29 20:23:20 by yzidani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ char	*get_next_line(int fd)
 			free (buf);
 	}
 	out_line = out(first);
-	first = get_new_first(first);
+ 	first = get_new_first(first);
 	return (out_line);
 }
