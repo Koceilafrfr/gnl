@@ -5,100 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 22:25:59 by yzidani           #+#    #+#             */
-/*   Updated: 2025/05/29 17:39:24 by yzidani          ###   ########.fr       */
+/*   Created: 2025/05/30 13:13:33 by yzidani           #+#    #+#             */
+/*   Updated: 2025/06/04 19:44:16 by yzidani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+int	found_newline(t_list *stash)
 {
-	size_t	i;
-	void	*res;
+	int		i;
+	t_list	*current;
 
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	res = malloc(nmemb * size);
-	if (!res)
-		return (NULL);
+	if (!stash)
+		return (0);
+	current = ft_lst_get_last(stash);
 	i = 0;
-	while (i < nmemb * size)
+	while (current->content[i])
 	{
-		((char *)res)[i] = 0;
+		if (current->content[i] == '\n')
+			return (1);
 		i++;
 	}
-	return (res);
+	return (0);
 }
 
-int	spe_len(t_caract *first)
+t_list	*ft_lst_get_last(t_list *stash)
+{
+	t_list	*current;
+
+	current = stash;
+	while (current && current->next)
+		current = current->next;
+	return (current);
+}
+
+void	generate_line(char **line, t_list *stash)
 {
 	int	i;
+	int	len;
 
-	i = 0;
-	while (first != NULL)
+	len = 0;
+	while (stash)
 	{
-		i++;
-		if (first->is_nl)
-			break;
-		first = first->next;
+		i = 0;
+		while (stash->content[i])
+		{
+			if (stash->content[i] == '\n')
+			{
+				len++;
+				break;
+			}
+			len++;
+			i++;
+		}
+		stash = stash->next;
 	}
-	return (i);
+	*line = malloc(sizeof(char) * (len + 1));
+}
+int	ft_strlen(const char *str)
+{
+	int	len;
+
+	len = 0;
+	while (*(str++))
+		len++;
+	return (len);
 }
 
-int	len_before_nl(t_caract *first)
+void	free_stash(t_list *stash)
 {
-	int	i;
+	t_list	*current;
+	t_list	*next;
 
-	i = 0;
-	while (first != NULL)
+	current = stash;
+	while (current)
 	{
-		if (first->is_nl == true)
-			return (i);
-		first = first->next;
-		i++;
+		free(current->content);
+		next = current->next;
+		free(current);
+		current = next;
 	}
-	return (-1);
 }
-
-t_caract	*new_t_caract(t_caract *car)
-{
-	if (car->data == '\n')
-		car->is_nl = true;
-	else
-		car->is_nl = false;
-	car->next = NULL;
-	return (car);
-}
-
-// t_caract	*treat_buf(char *buf, t_caract *first)
-// {
-// 	t_caract	*current;
-// 	t_caract	*new;
-
-// 	if (!first)
-// 	{
-// 		first = (t_caract *)ft_calloc(1, sizeof(t_caract));
-// 		if (!first)
-// 			return (NULL);
-// 		first->data = *buf++;
-// 		first = new_t_caract(first);
-// 		current = first;
-// 	}
-// 	else
-// 	{
-// 		current = first;
-// 		while (current->next != NULL)
-// 			current = current->next;
-// 	}
-// 	while (*buf)
-// 	{
-// 		new = (t_caract *)ft_calloc(1, sizeof(t_caract));
-// 		if (!new)
-// 			return (NULL);
-// 		new->data = *buf++;
-// 		current->next = new_t_caract(new);
-// 		current = current->next;
-// 	}
-// 	return (first);
-// }
