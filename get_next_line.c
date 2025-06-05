@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: obouhour <obouhour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:35:14 by yzidani           #+#    #+#             */
-/*   Updated: 2025/06/04 19:37:40 by yzidani          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:13:43 by obouhour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,34 @@ void	read_and_stash(int fd, t_list **stash)
 		if ((*stash == NULL && al_read == 0) || al_read == -1)
 		{
 			free(buf);
+			return ;
+		}
+		buf[al_read] = '\0';
+		add_to_stash(stash, buf, al_read);
+		free(buf);
+	}
+}
+
+void	read_and_stash(int fd, t_list **stash)
+{
+	char	*buf;
+	int 	al_read;
+
+	al_read = 1;
+	while (!found_newline(*stash) && al_read != 0)
+	{
+		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!buf)
+			return ;
+		al_read = (int)read(fd, buf, BUFFER_SIZE);
+		if (al_read <= 0)
+		{
+			free(buf);
+			if (al_read == -1)
+			{
+				free_stash(*stash);
+				*stash = NULL;
+			}
 			return ;
 		}
 		buf[al_read] = '\0';
