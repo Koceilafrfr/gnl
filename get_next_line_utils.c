@@ -6,7 +6,7 @@
 /*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:13:33 by yzidani           #+#    #+#             */
-/*   Updated: 2025/06/04 19:44:16 by yzidani          ###   ########.fr       */
+/*   Updated: 2025/06/27 04:56:55 by yzidani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	generate_line(char **line, t_list *stash)
 			if (stash->content[i] == '\n')
 			{
 				len++;
-				break;
+				break ;
 			}
 			len++;
 			i++;
@@ -63,6 +63,7 @@ void	generate_line(char **line, t_list *stash)
 	}
 	*line = malloc(sizeof(char) * (len + 1));
 }
+
 int	ft_strlen(const char *str)
 {
 	int	len;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouhour <obouhour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:35:14 by yzidani           #+#    #+#             */
-/*   Updated: 2025/06/05 11:13:43 by obouhour         ###   ########.fr       */
+/*   Updated: 2025/06/27 04:57:15 by yzidani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_line(int fd)
 	static t_list	*stash = NULL;
 	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0/* || read(fd, &line, 0) < 0*/)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
 	read_and_stash(fd, &stash);
@@ -34,33 +34,11 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-void	read_and_stash(int fd, t_list **stash)
-{
-	char	*buf;
-	int 	al_read;
-
-	al_read = 1;
-	while (!found_newline(*stash) && al_read != 0)
-	{
-		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!buf)
-			return ;
-		al_read = (int)read(fd, buf, BUFFER_SIZE);
-		if ((*stash == NULL && al_read == 0) || al_read == -1)
-		{
-			free(buf);
-			return ;
-		}
-		buf[al_read] = '\0';
-		add_to_stash(stash, buf, al_read);
-		free(buf);
-	}
-}
 
 void	read_and_stash(int fd, t_list **stash)
 {
 	char	*buf;
-	int 	al_read;
+	int		al_read;
 
 	al_read = 1;
 	while (!found_newline(*stash) && al_read != 0)
@@ -120,7 +98,7 @@ void	extract_line(t_list *stash, char **line)
 	int	j;
 
 	if (stash == NULL)
-		return;
+		return ;
 	generate_line(line, stash);
 	if (*line == NULL)
 		return ;
@@ -151,7 +129,7 @@ void	clean_stash(t_list **stash)
 
 	clean_node = malloc(sizeof(t_list));
 	if (!stash || !clean_node)
-		return;
+		return ;
 	clean_node->next = NULL;
 	last = ft_lst_get_last(*stash);
 	i = 0;
@@ -159,9 +137,10 @@ void	clean_stash(t_list **stash)
 		i++;
 	if (last->content && last->content[i] == '\n')
 		i++;
-	clean_node->content = malloc(sizeof(char) * (ft_strlen(last->content) - i) + 1);
+	clean_node->content = \
+		malloc(sizeof(char) * (ft_strlen(last->content) - i) + 1);
 	if (clean_node->content == NULL)
-		return;
+		return ;
 	j = 0;
 	while (last->content[i])
 		clean_node->content[j++] = last->content[i++];

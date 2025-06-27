@@ -6,7 +6,7 @@
 /*   By: yzidani <yzidani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:33:12 by yzidani           #+#    #+#             */
-/*   Updated: 2025/06/04 19:28:23 by yzidani          ###   ########.fr       */
+/*   Updated: 2025/06/27 04:56:09 by yzidani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1000000
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000000
+# endif
 
 typedef struct s_list
 {
